@@ -23,7 +23,7 @@ const SheetList = () => {
           {rows.map((row, index) => (
             <tr key={index}>
               {row.map((cell, index) => (
-                <td key={index} style={{ whiteSpace: "nowrap" }}>
+                <td key={index} style={{ whiteSpace: "nowrap", textAlign: "left" }}>
                   {cell}
                 </td>
               ))}
