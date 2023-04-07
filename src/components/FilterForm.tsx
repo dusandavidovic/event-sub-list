@@ -1,11 +1,11 @@
 import { useState } from "react";
 
-interface Column {
+export interface Column {
   label: string;
   key: string;
 }
 
-interface Filter {
+export interface Filter {
   columnKey: string;
   value: string;
 }

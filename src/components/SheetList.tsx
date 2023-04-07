@@ -1,5 +1,6 @@
 import useSheets from "../hooks/useSheet";
 import { Text } from "@chakra-ui/react";
+import FilterForm, { Column } from "./FilterForm";
 
 const SheetList = () => {
   const { headers, rows, error, isLoading } = useSheets();
@@ -8,9 +9,18 @@ const SheetList = () => {
     return <div>Loading...</div>;
   }
 
+  const columns: Column[] = headers.map((value) => {
+    return { label: value, key: value };
+  });
+
+  const handleFilterChange = (filters: Record<string, string>) => {
+    console.log(filters);
+  };
+
   return (
     <>
       <Text>{error ? error : ""}</Text>
+      <FilterForm columns={columns} onFilterChange={handleFilterChange} />
       <table>
         <thead>
           <tr>
