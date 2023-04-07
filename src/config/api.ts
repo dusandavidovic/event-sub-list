@@ -30,3 +30,6 @@ export const getUri = (range: string) => {
 export const getAuth = () => {
   return sheetAPI.auth;
 };
+export const getApiKey = () => {
+  return sheetAPI.apiKey;
+};
