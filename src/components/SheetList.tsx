@@ -1,9 +1,19 @@
 import useSheets from "../hooks/useSheet";
 import { Text } from "@chakra-ui/react";
-import FilterForm, { Column } from "./FilterForm";
+import FilterForm, { Column, Filter } from "./FilterForm1";
+import { useState } from "react";
+
+interface Data {
+  [key: string]: any; // allow any additional properties
+}
 
 const SheetList = () => {
   const { headers, rows, error, isLoading } = useSheets();
+  const [filters, setFilters] = useState<Filter[]>([]);
+
+  function handleFilterChange(filters: Filter[]) {
+    setFilters(filters);
+  }
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -13,9 +23,25 @@ const SheetList = () => {
     return { label: value, key: value };
   });
 
-  const handleFilterChange = (filters: Record<string, string>) => {
-    console.log(filters);
-  };
+  // const filteredData = rows.filter((row) => {
+  //   for (const [columnKey, filterValue] of Object.entries(filters)) {
+  //     const cellValue = String(row[columnKey]);
+  //     if (!cellValue.toLowerCase().includes(filterValue.toLowerCase())) {
+  //       return false;
+  //     }
+  //   }
+  //   return true;
+  // });
+  // const filteredData1 = rows.filter((row) => {
+  //   return Object.values<Data>(row).some((cellValue) => {
+  //     for (const [columnKey, filterValue] of Object.entries(filters)) {
+  //       if (cellValue && cellValue.toString().toLowerCase().includes(filterValue.toLowerCase())) {
+  //         return true;
+  //       }
+  //     }
+  //     return false;
+  //   });
+  // });
 
   return (
     <>
