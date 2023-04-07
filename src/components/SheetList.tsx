@@ -1,6 +1,6 @@
 import useSheets from "../hooks/useSheet";
 import { Text } from "@chakra-ui/react";
-import FilterForm, { Column, Filter } from "./FilterForm1";
+import FilterForm, { Column, Filter } from "./FilterForm";
 import { useState } from "react";
 
 interface Data {

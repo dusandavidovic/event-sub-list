@@ -1,3 +1,4 @@
+import { Button, ButtonGroup, Input } from "@chakra-ui/react";
 import { useState } from "react";
 
 export interface Column {
@@ -12,37 +13,75 @@ export interface Filter {
 
 interface Props {
   columns: Column[];
-  onFilterChange: (filters: Record<string, string>) => void;
+  onFilterChange: (filters: Filter[]) => void;
 }
 
 export default function FilterForm({ columns, onFilterChange }: Props) {
-  const [filters, setFilters] = useState<Record<string, string>>({});
+  const [filters, setFilters] = useState<Filter[]>([{ columnKey: "", value: "" }]);
 
-  function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const { name, value } = event.target;
-    setFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
+  function handleColumnSelectChange(event: React.ChangeEvent<HTMLSelectElement>, index: number) {
+    const { value } = event.target;
+    setFilters((prevFilters) =>
+      prevFilters.map((filter, i) => (i === index ? { ...filter, columnKey: value } : filter))
+    );
+  }
+
+  function handleValueInputChange(event: React.ChangeEvent<HTMLInputElement>, index: number) {
+    const { value } = event.target;
+    setFilters((prevFilters) =>
+      prevFilters.map((filter, i) => (i === index ? { ...filter, value } : filter))
+    );
+  }
+
+  function handleAddFilterClick() {
+    setFilters((prevFilters) => [...prevFilters, { columnKey: "", value: "" }]);
+  }
+
+  function handleRemoveFilterClick(index: number) {
+    setFilters((prevFilters) => prevFilters.filter((filter, i) => i !== index));
   }
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    onFilterChange(filters);
+    onFilterChange(filters.filter((filter) => filter.columnKey && filter.value));
   }
 
   return (
     <form onSubmit={handleSubmit}>
-      {columns.map((column) => (
-        <div key={column.key}>
-          <label htmlFor={column.key}>{column.label}</label>
-          <input
-            type="text"
-            id={column.key}
-            name={column.key}
-            value={filters[column.key] || ""}
-            onChange={handleInputChange}
+      {filters.map((filter, index) => (
+        <div key={index}>
+          <select
+            value={filter.columnKey}
+            onChange={(event) => handleColumnSelectChange(event, index)}
+          >
+            <option value="">Select a column</option>
+            {columns.map((column) => (
+              <option key={column.key} value={column.key}>
+                {column.label}
+              </option>
+            ))}
+          </select>
+          <Input
+            placeholder="filter value"
+            value={filter.value}
+            onChange={(event) => handleValueInputChange(event, index)}
           />
+          {/* <input
+            type="text"
+            value={filter.value}
+            onChange={(event) => handleValueInputChange(event, index)}
+          /> */}
+          {index > 0 && <Button onClick={() => handleRemoveFilterClick(index)}>Remove</Button>}
         </div>
       ))}
-      <button type="submit">Apply Filters</button>
+      <ButtonGroup variant="outline" spacing="6">
+        <Button colorScheme="blue" onClick={handleAddFilterClick}>
+          Add Filter
+        </Button>
+        <Button colorScheme="blue" type="submit">
+          Apply Filters
+        </Button>
+      </ButtonGroup>
     </form>
   );
 }
