@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import apiClient from "../service/api-client";
+import apiClient, { CanceledError } from "../service/api-client";
 import { getUri } from "../config/api";
 import SHEETS from "../config/sheets";
 
@@ -21,31 +21,25 @@ const useSheets = () => {
     setLoading(true);
 
     apiClient
-      //   .get(
-      //     "https://sheets.googleapis.com/v4/spreadsheets/1YJM8O7pyAsv9Y8J8I5EGFoYR-6t8UKIeV7Gzf8tnx0Y/values/main?key=AIzaSyBPXVe9nXfFK0y7ThJJL5hyrxz82FaFzd4"
-      //   )
       .get(getUri(SHEETS.eventSubscriptions.sheets.main), {
-        //     headers: {
-        //       apiKey: getApiKey(),
-        //     },
         signal: controler.signal,
       })
       .then((res) => {
         console.log(res.data);
-        setValues(res.data.Values);
-        if (values.length > 0) {
-          setHeaders(values[0]);
-          setRows(values.slice(1));
+        setValues(res.data.values);
+        if (res.data.values) {
+          setHeaders(res.data.values[0]);
+          setRows(res.data.values.slice(1));
         }
         setLoading(false);
       })
       .catch((err) => {
-        //if (err instanceof CanceledError) return;
+        if (err instanceof CanceledError) return;
         setLoading(false);
         setError(err.message);
       });
 
-    //  return () => controler.abort(); //to cancel first call in dev
+    return () => controler.abort(); //to cancel first call in dev
   }, []);
 
   return { values, headers, rows, error, isLoading };
