@@ -24,7 +24,7 @@ const template = {
 
 export const getUri = (range: string) => {
   const uri = template.uriGet.replace("{{spreadsheetId}}", SHEETS.eventSubscriptions.id);
-  return uri.replace("{{range}}", range);
+  return `${uri.replace("{{range}}", range)}?key=${sheetAPI.apiKey}`;
 };
 
 export const getAuth = () => {
