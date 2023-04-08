@@ -1,9 +1,9 @@
 import { Grid, GridItem } from "@chakra-ui/react";
-import SheetList from "./components/SheetList";
 import Header from "./components/Header";
 import { IFilter } from "./interface/filter";
 import useSheets from "./hooks/useSheet";
 import DataList from "./components/DataList";
+import Filter from "./components/Filter";
 
 function App() {
   const { headers, rows, error, isLoading } = useSheets();
@@ -17,16 +17,16 @@ function App() {
         <Header />
       </GridItem>
       <GridItem pl="2" bg="cyan.200" area={"filter"}>
+        <Filter columns={headers} onFilterChange={handleFilterChange} />
+      </GridItem>
+      <GridItem pl="2" bg="blue.200" area={"main"}>
         <DataList
           columns={headers}
           rows={rows}
           error={error}
           isLoading={isLoading}
-          onFilterChange={handleFilterChange}
+          //onFilterChange={handleFilterChange}
         />
-      </GridItem>
-      <GridItem pl="2" bg="blue.200" area={"main"}>
-        <SheetList />
       </GridItem>
     </Grid>
   );

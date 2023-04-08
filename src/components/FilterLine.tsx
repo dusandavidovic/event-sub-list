@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { BsChevronDown } from "react-icons/bs";
-import { IColumn, IFilter } from "../interface/filter";
-import { Button, HStack, Input, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import { BsChevronDown, BsPlusCircle } from "react-icons/bs";
+import { IFilter } from "../interface/filter";
+import { Box, Button, HStack, Input, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 
 interface IFilterLineProps {
   //filters: Filter[];
-  columns: IColumn[];
+  columns: string[];
   //onFilterChange: (filters: Filter[]) => void;
 }
 const FilterLine: React.FC<IFilterLineProps> = ({ columns }) => {
@@ -13,27 +13,42 @@ const FilterLine: React.FC<IFilterLineProps> = ({ columns }) => {
   const [column, setColumn] = useState("");
   const [value, setValue] = useState("");
 
-  function handleAddColumn(column: IColumn) {
-    setFilters((prevFilters) => [...prevFilters, { columnKey: column.key, value: "" }]);
-    console.log(filters);
+  function handleAddColumnFilter(column: string) {
+    //setFilters((prevFilters) => [...prevFilters, { columnKey: column, value: "" }]);
+    setColumn(column);
+    console.log(column);
+  }
+  function handleValueInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const { value } = event.target;
+    //setFilters((prevFilters) => [...prevFilters, { columnKey: column.key, value: "" }]);
+    console.log("InputChange", value);
   }
 
   return (
-    <HStack>
-      <Menu>
-        <MenuButton as={Button} rightIcon={<BsChevronDown />}>
-          Filter
-        </MenuButton>
-        <MenuList>
-          {columns.map((column) => (
-            <MenuItem key={column.label} onClick={() => handleAddColumn(column)}>
-              {column.label}
-            </MenuItem>
-          ))}
-        </MenuList>
-      </Menu>
-      <Input placeholder="filter value" size="sm"></Input>
-    </HStack>
+    <Box boxSize="40%">
+      <HStack padding="10px">
+        <Menu>
+          <MenuButton as={Button} rightIcon={<BsChevronDown />} width="30%">
+            {column || "column..."}
+          </MenuButton>
+          <MenuList>
+            {columns.map((column) => (
+              <MenuItem key={column} onClick={() => handleAddColumnFilter(column)}>
+                {column}
+              </MenuItem>
+            ))}
+          </MenuList>
+        </Menu>
+        <Input
+          variant="outline"
+          placeholder="filter value"
+          size="20%"
+          padding="10px"
+          onChange={(event) => handleValueInputChange(event)}
+        ></Input>
+        <Button rightIcon={<BsPlusCircle />}>Add filter</Button>
+      </HStack>
+    </Box>
   );
 };
 

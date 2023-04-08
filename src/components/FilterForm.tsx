@@ -40,7 +40,7 @@ export default function FilterForm({ columns, onFilterChange }: Props) {
 
   return (
     <>
-      <FilterLine columns={columns} />
+      {/* <FilterLine columns={columns} /> */}
       <form onSubmit={handleSubmit}>
         {filters.map((filter, index) => (
           <div key={index}>

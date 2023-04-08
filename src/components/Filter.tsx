@@ -1,4 +1,5 @@
 import { IFilter } from "../interface/filter";
+import FilterLine from "./FilterLine";
 
 interface IFilterProps {
   columns: string[];
@@ -6,7 +7,7 @@ interface IFilterProps {
 }
 
 const Filter: React.FC<IFilterProps> = ({ columns, onFilterChange }) => {
-  return <div>Filter</div>;
+  return <FilterLine columns={columns} />;
 };
 
 export default Filter;
