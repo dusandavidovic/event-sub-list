@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import { BsChevronDown } from "react-icons/bs";
-import { Column, Filter } from "./FilterForm";
+import { IColumn, IFilter } from "../interface/filter";
 import { Button, HStack, Input, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 
 interface IFilterLineProps {
   //filters: Filter[];
-  columns: Column[];
+  columns: IColumn[];
   //onFilterChange: (filters: Filter[]) => void;
 }
 const FilterLine: React.FC<IFilterLineProps> = ({ columns }) => {
-  const [filters, setFilters] = useState<Filter[]>([{ columnKey: "", value: "" }]);
+  const [filters, setFilters] = useState<IFilter[]>([{ columnKey: "", value: "" }]);
   const [column, setColumn] = useState("");
   const [value, setValue] = useState("");
 
-  function handleAddColumn(column: Column) {
+  function handleAddColumn(column: IColumn) {
     setFilters((prevFilters) => [...prevFilters, { columnKey: column.key, value: "" }]);
     console.log(filters);
   }

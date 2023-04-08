@@ -1,17 +1,21 @@
 import useSheets from "../hooks/useSheet";
 import { Text } from "@chakra-ui/react";
-import FilterForm, { Column, Filter } from "./FilterForm";
+import FilterForm from "./FilterForm";
+import { IColumn, IFilter } from "../interface/filter";
 import { useState } from "react";
 
 interface Data {
   [key: string]: any; // allow any additional properties
 }
 
+// interface ISheetListProps {
+//   onFilterChange:
+// }
 const SheetList = () => {
   const { headers, rows, error, isLoading } = useSheets();
-  const [filters, setFilters] = useState<Filter[]>([]);
+  const [filters, setFilters] = useState<IFilter[]>([]);
 
-  function handleFilterChange(filters: Filter[]) {
+  function handleFilterChange(filters: IFilter[]) {
     setFilters(filters);
   }
 
@@ -19,7 +23,7 @@ const SheetList = () => {
     return <div>Loading...</div>;
   }
 
-  const columns: Column[] = headers.map((value) => {
+  const columns: IColumn[] = headers.map((value) => {
     return { label: value, key: value };
   });
 

@@ -1,24 +1,15 @@
 import { Button, ButtonGroup, HStack, Input } from "@chakra-ui/react";
 import { useState } from "react";
 import FilterLine from "./FilterLine";
-
-export interface Column {
-  label: string;
-  key: string;
-}
-
-export interface Filter {
-  columnKey: string;
-  value: string;
-}
+import { IColumn, IFilter } from "../interface/filter";
 
 interface Props {
-  columns: Column[];
-  onFilterChange: (filters: Filter[]) => void;
+  columns: IColumn[];
+  onFilterChange: (filters: IFilter[]) => void;
 }
 
 export default function FilterForm({ columns, onFilterChange }: Props) {
-  const [filters, setFilters] = useState<Filter[]>([{ columnKey: "", value: "" }]);
+  const [filters, setFilters] = useState<IFilter[]>([{ columnKey: "", value: "" }]);
 
   function handleColumnSelectChange(event: React.ChangeEvent<HTMLSelectElement>, index: number) {
     const { value } = event.target;
