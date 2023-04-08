@@ -4,12 +4,19 @@ import { IFilter } from "./interface/filter";
 import useSheets from "./hooks/useSheet";
 import DataList from "./components/DataList";
 import Filter from "./components/Filter";
+import { useState } from "react";
 
 function App() {
   const { headers, rows, error, isLoading } = useSheets();
+  const [filters, setFilters] = useState<IFilter[]>([{ columnKey: "", value: "" }]);
 
-  const handleFilterChange = (filters: IFilter[]) => {
-    console.log("Filter change", filters);
+  const handleFilterChange = (filters: IFilter[], action: string) => {
+    console.log("Filter change", action, filters);
+    if (action === "add")
+      setFilters((prevFilters) => [
+        ...prevFilters,
+        { columnKey: filters[0].columnKey, value: filters[0].value },
+      ]);
   };
   return (
     <Grid templateAreas={`"header" "filter" "main"`} gap="1" color="blackAlpha.700">

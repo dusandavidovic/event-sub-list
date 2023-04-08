@@ -6,9 +6,9 @@ import { Box, Button, HStack, Input, Menu, MenuButton, MenuItem, MenuList } from
 interface IFilterLineProps {
   //filters: Filter[];
   columns: string[];
-  //onFilterChange: (filters: Filter[]) => void;
+  onFilterChange: (filters: IFilter[], action: string) => void;
 }
-const FilterLine: React.FC<IFilterLineProps> = ({ columns }) => {
+const FilterLine: React.FC<IFilterLineProps> = ({ columns, onFilterChange }) => {
   const [filters, setFilters] = useState<IFilter[]>([{ columnKey: "", value: "" }]);
   const [column, setColumn] = useState("");
   const [value, setValue] = useState("");
@@ -20,9 +20,13 @@ const FilterLine: React.FC<IFilterLineProps> = ({ columns }) => {
   }
   function handleValueInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { value } = event.target;
+    setValue(value);
     //setFilters((prevFilters) => [...prevFilters, { columnKey: column.key, value: "" }]);
     console.log("InputChange", value);
   }
+  const handleAddFilter = () => {
+    onFilterChange([{ columnKey: column, value: value }], "add");
+  };
 
   return (
     <Box boxSize="40%">
@@ -40,13 +44,16 @@ const FilterLine: React.FC<IFilterLineProps> = ({ columns }) => {
           </MenuList>
         </Menu>
         <Input
+          value={value}
           variant="outline"
           placeholder="filter value"
-          size="20%"
+          size="10%"
           padding="10px"
           onChange={(event) => handleValueInputChange(event)}
-        ></Input>
-        <Button rightIcon={<BsPlusCircle />}>Add filter</Button>
+        />
+        <Button onClick={handleAddFilter} rightIcon={<BsPlusCircle />}>
+          Add filter
+        </Button>
       </HStack>
     </Box>
   );
