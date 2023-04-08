@@ -1,30 +1,29 @@
-import { Flex, Grid, GridItem } from "@chakra-ui/react";
+import { Grid, GridItem } from "@chakra-ui/react";
 import SheetList from "./components/SheetList";
 import Header from "./components/Header";
 import { IFilter } from "./interface/filter";
-import Filter from "./components/Filter";
+import useSheets from "./hooks/useSheet";
+import DataList from "./components/DataList";
 
 function App() {
-  const columns: string[] = [];
+  const { headers, rows, error, isLoading } = useSheets();
+
   const handleFilterChange = (filters: IFilter[]) => {
-    console.log("Filter change");
+    console.log("Filter change", filters);
   };
   return (
-    <Grid
-      templateAreas={`"header" "filter" "main"`}
-      //gridTemplateRows={"50px 1fr 30px"}
-      //gridTemplateColumns={"550px 1fr"}
-      // h="200px"
-      gap="1"
-      color="blackAlpha.700"
-    >
+    <Grid templateAreas={`"header" "filter" "main"`} gap="1" color="blackAlpha.700">
       <GridItem pl="2" bg="gray.200" area={"header"}>
-        <Flex>
-          <Header />
-        </Flex>
+        <Header />
       </GridItem>
       <GridItem pl="2" bg="cyan.200" area={"filter"}>
-        <Filter columns={columns} onFilterChange={handleFilterChange} />
+        <DataList
+          columns={headers}
+          rows={rows}
+          error={error}
+          isLoading={isLoading}
+          onFilterChange={handleFilterChange}
+        />
       </GridItem>
       <GridItem pl="2" bg="blue.200" area={"main"}>
         <SheetList />
