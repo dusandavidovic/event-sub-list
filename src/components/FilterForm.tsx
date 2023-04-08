@@ -1,5 +1,6 @@
-import { Button, ButtonGroup, Input } from "@chakra-ui/react";
+import { Button, ButtonGroup, HStack, Input } from "@chakra-ui/react";
 import { useState } from "react";
+import FilterLine from "./FilterLine";
 
 export interface Column {
   label: string;
@@ -47,41 +48,45 @@ export default function FilterForm({ columns, onFilterChange }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      {filters.map((filter, index) => (
-        <div key={index}>
-          <select
-            value={filter.columnKey}
-            onChange={(event) => handleColumnSelectChange(event, index)}
-          >
-            <option value="">Select a column</option>
-            {columns.map((column) => (
-              <option key={column.key} value={column.key}>
-                {column.label}
-              </option>
-            ))}
-          </select>
-          <Input
-            placeholder="filter value"
-            value={filter.value}
-            onChange={(event) => handleValueInputChange(event, index)}
-          />
-          {/* <input
+    <>
+      <FilterLine columns={columns} />
+      <form onSubmit={handleSubmit}>
+        {filters.map((filter, index) => (
+          <div key={index}>
+            <select
+              value={filter.columnKey}
+              onChange={(event) => handleColumnSelectChange(event, index)}
+            >
+              <option value="">Select a column</option>
+              {columns.map((column) => (
+                <option key={column.key} value={column.key}>
+                  {column.label}
+                </option>
+              ))}
+            </select>
+            <Input
+              placeholder="filter value"
+              value={filter.value}
+              onChange={(event) => handleValueInputChange(event, index)}
+            />
+            {/* <input
             type="text"
             value={filter.value}
             onChange={(event) => handleValueInputChange(event, index)}
           /> */}
-          {index > 0 && <Button onClick={() => handleRemoveFilterClick(index)}>Remove</Button>}
-        </div>
-      ))}
-      <ButtonGroup variant="outline" spacing="6">
-        <Button colorScheme="blue" onClick={handleAddFilterClick}>
-          Add Filter
-        </Button>
-        <Button colorScheme="blue" type="submit">
-          Apply Filters
-        </Button>
-      </ButtonGroup>
-    </form>
+            {index > 0 && <Button onClick={() => handleRemoveFilterClick(index)}>Remove</Button>}
+          </div>
+        ))}
+
+        <ButtonGroup variant="outline" spacing="6">
+          <Button colorScheme="blue" onClick={handleAddFilterClick}>
+            Add Filter
+          </Button>
+          <Button colorScheme="blue" type="submit">
+            Apply Filters
+          </Button>
+        </ButtonGroup>
+      </form>
+    </>
   );
 }
