@@ -11,6 +11,8 @@ import { IKeyValuePair } from "./config/filters";
 
 function App() {
   const { headers, rows, error, isLoading } = useSheets();
+  const [filteredRows, setFilteredRows] = useState<string[][]>([]);
+
   //const [filters, setFilters] = useState<IFilter[]>([{ columnKey: "", value: "", add: true }]);
 
   // const handleFilterChange = (filters: IFilter[], action: string) => {
@@ -47,7 +49,7 @@ function App() {
       <GridItem pl="2" bg="blue.200" area={"main"}>
         <DataList
           columns={headers}
-          rows={rows}
+          rows={!filteredRows ? filteredRows : rows}
           error={error}
           isLoading={isLoading}
           //onFilterChange={handleFilterChange}

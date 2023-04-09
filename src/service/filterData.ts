@@ -1,4 +1,5 @@
 import { series, skills } from "../config/filters";
+import { IFilter } from "../interface/filter";
 //import { filterValues } from "./common";
 
 interface ITable {
@@ -23,3 +24,11 @@ export const getSeries = () => {
 export const getSkills = () => {
   return skills;
 };
+
+interface IfilterRowsProps {
+  filter: IFilter;
+  columns: string[];
+  rows: string[][];
+}
+
+export const filterRows = ({ filter, columns, rows }: IfilterRowsProps) => {};
