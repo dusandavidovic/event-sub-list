@@ -42,9 +42,9 @@ function App() {
       <GridItem pl="2" bg="gray.200" area={"header"}>
         <Header />
       </GridItem>
-      <GridItem pl="2" bg="cyan.200" area={"filter"}>
+      {/* <GridItem pl="2" bg="cyan.200" area={"filter"}>
         <FilterButtons onFilterChange={handleTest} />
-      </GridItem>
+      </GridItem> */}
       <GridItem pl="2" bg="blue.200" area={"main"}>
         <DataList
           columns={headers}
