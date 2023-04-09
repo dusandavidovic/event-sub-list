@@ -11,12 +11,14 @@ function App() {
   const [filters, setFilters] = useState<IFilter[]>([{ columnKey: "", value: "" }]);
 
   const handleFilterChange = (filters: IFilter[], action: string) => {
+    const filter = filters[0];
     console.log("Filter change", action, filters);
     if (action === "add")
-      setFilters((prevFilters) => [
-        ...prevFilters,
-        { columnKey: filters[0].columnKey, value: filters[0].value },
-      ]);
+      if (filter.columnKey && filter.value)
+        setFilters((prevFilters) => [
+          ...prevFilters,
+          { columnKey: filters[0].columnKey, value: filters[0].value },
+        ]);
   };
   return (
     <Grid templateAreas={`"header" "filter" "main"`} gap="1" color="blackAlpha.700">
@@ -24,7 +26,7 @@ function App() {
         <Header />
       </GridItem>
       <GridItem pl="2" bg="cyan.200" area={"filter"}>
-        <Filter columns={headers} onFilterChange={handleFilterChange} />
+        <Filter filters={filters} columns={headers} onFilterChange={handleFilterChange} />
       </GridItem>
       <GridItem pl="2" bg="blue.200" area={"main"}>
         <DataList

@@ -1,13 +1,15 @@
-import { Box, Button, HStack } from "@chakra-ui/react";
+import { Box, Button, HStack, List, ListItem } from "@chakra-ui/react";
 import { IFilter } from "../interface/filter";
 import FilterLine from "./FilterLine";
 
 interface IFilterProps {
+  filters: IFilter[];
   columns: string[];
   onFilterChange: (filters: IFilter[], action: string) => void;
 }
 
-const Filter: React.FC<IFilterProps> = ({ columns, onFilterChange }) => {
+const Filter: React.FC<IFilterProps> = ({ filters, columns, onFilterChange }) => {
+  let lineIdx = 0;
   return (
     <>
       <Box boxSize="35%">
@@ -30,7 +32,13 @@ const Filter: React.FC<IFilterProps> = ({ columns, onFilterChange }) => {
           </Button>
         </HStack>
       </Box>
-      <FilterLine columns={columns} onFilterChange={onFilterChange} />
+      <List>
+        {filters.map((filter) => (
+          <ListItem key={lineIdx++}>
+            <FilterLine filter={filter} columns={columns} onFilterChange={onFilterChange} />
+          </ListItem>
+        ))}
+      </List>
     </>
   );
 };
