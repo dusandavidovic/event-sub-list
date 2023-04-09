@@ -37,21 +37,13 @@ function App() {
     setFilteredRows([...newRows]);
   };
 
-  let series: IKeyValuePair[] = [];
-  let skills: IKeyValuePair[] = [];
-  if (headers) {
-    series = getSeries();
-    skills = getSkills();
-  }
-
   return (
     <Grid templateAreas={`"header" "filter" "main"`} gap="1" color="blackAlpha.700">
       <GridItem pl="2" bg="gray.200" area={"header"}>
         <Header />
       </GridItem>
       <GridItem pl="2" bg="cyan.200" area={"filter"}>
-        {/* <Filter filters={filters} columns={headers} onFilterChange={handleFilterChange} /> */}
-        <FilterButtons series={series} skills={skills} onFilterChange={handleTest} />
+        <FilterButtons onFilterChange={handleTest} />
       </GridItem>
       <GridItem pl="2" bg="blue.200" area={"main"}>
         <DataList

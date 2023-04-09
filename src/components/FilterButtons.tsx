@@ -3,6 +3,7 @@ import React from "react";
 import { MdArrowDropDown } from "react-icons/md";
 import { IKeyValuePair } from "../config/filters";
 import { IFilter } from "../interface/filter";
+import { getSeries, getSkills } from "../service/filterData";
 
 // interface IFilterColumns {
 //   series: string;
@@ -12,13 +13,14 @@ import { IFilter } from "../interface/filter";
 // }
 
 interface IFilterButtonsProps {
-  series: IKeyValuePair[];
+  //   series: IKeyValuePair[];
   event?: string[];
-  skills: IKeyValuePair[];
+  //   skills: IKeyValuePair[];
   onFilterChange?: (filters: IFilter, action?: string) => void;
 }
 
-const FilterButtons: React.FC<IFilterButtonsProps> = ({ series, skills, onFilterChange }) => {
+// const FilterButtons: React.FC<IFilterButtonsProps> = ({ series, skills, onFilterChange }) => {
+const FilterButtons: React.FC<IFilterButtonsProps> = ({ onFilterChange }) => {
   const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>, column: string) => {
     const { value } = event.target;
     if (onFilterChange) onFilterChange({ columnKey: column, value: value });
@@ -34,7 +36,7 @@ const FilterButtons: React.FC<IFilterButtonsProps> = ({ series, skills, onFilter
             placeholder="Select series"
             icon={<MdArrowDropDown />}
           >
-            {series.map((serie) => (
+            {getSeries().map((serie) => (
               <option key={serie.key} value={serie.value}>
                 {serie.value}
               </option>
@@ -43,8 +45,17 @@ const FilterButtons: React.FC<IFilterButtonsProps> = ({ series, skills, onFilter
           <Select variant="outline" placeholder="Select event" icon={<MdArrowDropDown />}>
             <option>R1</option>
           </Select>
-          <Select variant="outline" placeholder="Select task" icon={<MdArrowDropDown />}>
-            <option>Driver</option>
+          <Select
+            onChange={(event) => handleSelect(event, "Skills")}
+            variant="outline"
+            placeholder="Select task"
+            icon={<MdArrowDropDown />}
+          >
+            {getSkills().map((skill) => (
+              <option key={skill.key} value={skill.value}>
+                {skill.value}
+              </option>
+            ))}
           </Select>
         </HStack>
       </Box>
