@@ -6,7 +6,7 @@ import DataList from "./components/DataList";
 //import Filter from "./components/Filter";
 import { useState } from "react";
 import FilterButtons from "./components/FilterButtons";
-import { getSeries, getSkills } from "./service/filterData";
+import { filterRows, getSeries, getSkills } from "./service/filterData";
 import { IKeyValuePair } from "./config/filters";
 
 function App() {
@@ -28,6 +28,13 @@ function App() {
 
   const handleTest = (filter: IFilter, action?: string) => {
     console.log(filter, action);
+    const newRows = filterRows({
+      filter: filter,
+      columns: headers,
+      rows: !filteredRows ? filteredRows : rows,
+    });
+    console.log(newRows);
+    setFilteredRows([...newRows]);
   };
 
   let series: IKeyValuePair[] = [];

@@ -31,4 +31,11 @@ interface IfilterRowsProps {
   rows: string[][];
 }
 
-export const filterRows = ({ filter, columns, rows }: IfilterRowsProps) => {};
+export const filterRows = ({ filter, columns, rows }: IfilterRowsProps) => {
+  const colIdx = columns.indexOf(filter.columnKey);
+
+  const fRow = rows.filter((row, index) => {
+    return filter.value === row[colIdx];
+  });
+  return fRow;
+};
