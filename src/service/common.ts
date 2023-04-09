@@ -16,10 +16,11 @@ function toPascalCase(input: string): string {
     .replace(/^(.)/, (_, match) => match.toUpperCase());
 }
 
-function filterValues(values: string[][], filter: string): string[][] {
-  return values.filter((row) => row.some((cell) => cell.includes(filter)));
+export function filterValues(values: string[][], filter: string): string[][] {
+  const aaa = values.filter((row) => row.some((cell) => cell.includes(filter)));
+  return aaa;
 }
 
-function sortByColumn(values: string[][], columnIndex: number): string[][] {
+export function sortByColumn(values: string[][], columnIndex: number): string[][] {
   return values.sort((a, b) => a[columnIndex].localeCompare(b[columnIndex]));
 }

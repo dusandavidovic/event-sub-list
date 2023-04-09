@@ -3,30 +3,46 @@ import Header from "./components/Header";
 import { IFilter } from "./interface/filter";
 import useSheets from "./hooks/useSheet";
 import DataList from "./components/DataList";
-import Filter from "./components/Filter";
+//import Filter from "./components/Filter";
 import { useState } from "react";
+import FilterButtons from "./components/FilterButtons";
+import { getSeries, getSkills } from "./service/filterData";
+import { IKeyValuePair } from "./config/filters";
 
 function App() {
   const { headers, rows, error, isLoading } = useSheets();
-  const [filters, setFilters] = useState<IFilter[]>([{ columnKey: "", value: "", add: true }]);
+  //const [filters, setFilters] = useState<IFilter[]>([{ columnKey: "", value: "", add: true }]);
 
-  const handleFilterChange = (filters: IFilter[], action: string) => {
-    const filter = filters[0];
-    console.log("Filter change", action, filters);
-    if (action === "add")
-      if (filter.columnKey && filter.value)
-        setFilters((prevFilters) => [
-          ...prevFilters,
-          { columnKey: filter.columnKey, value: filter.value, add: filter.add },
-        ]);
+  // const handleFilterChange = (filters: IFilter[], action: string) => {
+  //   const filter = filters[0];
+  //   console.log("Filter change", action, filters);
+  //   if (action === "add")
+  //     if (filter.columnKey && filter.value)
+  //       setFilters((prevFilters) => [
+  //         ...prevFilters,
+  //         { columnKey: filter.columnKey, value: filter.value, add: filter.add },
+  //       ]);
+  // };
+
+  const handleTest = (filter: IFilter, action?: string) => {
+    console.log(filter, action);
   };
+
+  let series: IKeyValuePair[] = [];
+  let skills: IKeyValuePair[] = [];
+  if (headers) {
+    series = getSeries();
+    skills = getSkills();
+  }
+
   return (
     <Grid templateAreas={`"header" "filter" "main"`} gap="1" color="blackAlpha.700">
       <GridItem pl="2" bg="gray.200" area={"header"}>
         <Header />
       </GridItem>
       <GridItem pl="2" bg="cyan.200" area={"filter"}>
-        <Filter filters={filters} columns={headers} onFilterChange={handleFilterChange} />
+        {/* <Filter filters={filters} columns={headers} onFilterChange={handleFilterChange} /> */}
+        <FilterButtons series={series} skills={skills} onFilterChange={handleTest} />
       </GridItem>
       <GridItem pl="2" bg="blue.200" area={"main"}>
         <DataList

@@ -1,7 +1,7 @@
 // THIS IS SAMPLE
 import { Button, ButtonGroup, HStack, Input } from "@chakra-ui/react";
 import { useState } from "react";
-import FilterLine from "./FilterLine";
+import FilterLine from "../components/FilterLine";
 import { IColumn, IFilter } from "../interface/filter";
 
 interface Props {
