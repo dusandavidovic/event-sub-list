@@ -1,3 +1,4 @@
+// THIS IS SAMPLE
 import { Button, ButtonGroup, HStack, Input } from "@chakra-ui/react";
 import { useState } from "react";
 import FilterLine from "./FilterLine";
@@ -26,7 +27,7 @@ export default function FilterForm({ columns, onFilterChange }: Props) {
   }
 
   function handleAddFilterClick() {
-    setFilters((prevFilters) => [...prevFilters, { columnKey: "", value: "" }]);
+    //setFilters((prevFilters) => [...prevFilters, { columnKey: "", value: "" }]);
   }
 
   function handleRemoveFilterClick(index: number) {

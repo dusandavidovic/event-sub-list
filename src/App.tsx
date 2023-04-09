@@ -8,7 +8,7 @@ import { useState } from "react";
 
 function App() {
   const { headers, rows, error, isLoading } = useSheets();
-  const [filters, setFilters] = useState<IFilter[]>([{ columnKey: "", value: "" }]);
+  const [filters, setFilters] = useState<IFilter[]>([{ columnKey: "", value: "", add: true }]);
 
   const handleFilterChange = (filters: IFilter[], action: string) => {
     const filter = filters[0];
@@ -17,7 +17,7 @@ function App() {
       if (filter.columnKey && filter.value)
         setFilters((prevFilters) => [
           ...prevFilters,
-          { columnKey: filters[0].columnKey, value: filters[0].value },
+          { columnKey: filter.columnKey, value: filter.value, add: filter.add },
         ]);
   };
   return (

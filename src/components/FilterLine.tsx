@@ -1,17 +1,7 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { BsChevronDown, BsPlusCircle } from "react-icons/bs";
 import { IFilter } from "../interface/filter";
-import {
-  Box,
-  Button,
-  HStack,
-  Input,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Show,
-} from "@chakra-ui/react";
+import { Box, Button, HStack, Input, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 
 interface IFilterLineProps {
   filter: IFilter;
@@ -21,6 +11,7 @@ interface IFilterLineProps {
 const FilterLine: React.FC<IFilterLineProps> = ({ filter, columns, onFilterChange }) => {
   const [column, setColumn] = useState("");
   const [value, setValue] = useState("");
+  const ref = useRef<HTMLInputElement>(null);
 
   function handleAddColumnFilter(column: string) {
     setColumn(column);
@@ -31,8 +22,13 @@ const FilterLine: React.FC<IFilterLineProps> = ({ filter, columns, onFilterChang
     setValue(value);
     console.log("InputChange", value);
   }
-  const handleAddFilter = () => {
-    onFilterChange([{ columnKey: column, value: value }], "add");
+  const handleFilterLine = (action: string) => {
+    const filter: IFilter = {
+      columnKey: column,
+      value: value,
+      add: column && value ? false : true,
+    };
+    onFilterChange([filter], action);
   };
 
   return (
@@ -51,29 +47,33 @@ const FilterLine: React.FC<IFilterLineProps> = ({ filter, columns, onFilterChang
           </MenuList>
         </Menu>
         <Input
-          value={filter.value ? filter.value : value}
+          //   value={filter.value}
           variant="outline"
           placeholder="filter value"
           size="10%"
           padding="10px"
+          borderRadius={10}
           onChange={(event) => handleValueInputChange(event)}
         />
-        {filter.value && filter.columnKey ? (
-          <Button width="170px" type="button" colorScheme="orange" onClick={handleAddFilter}>
+        {filter.add === false ? (
+          <Button
+            width="170px"
+            type="button"
+            colorScheme="orange"
+            onClick={() => handleFilterLine("remove")}
+          >
             Remove
           </Button>
         ) : (
-          <Button width="170px" type="button" colorScheme="teal" onClick={handleAddFilter}>
+          <Button
+            width="170px"
+            type="button"
+            colorScheme="teal"
+            onClick={() => handleFilterLine("add")}
+          >
             Add line
           </Button>
         )}
-        {/* <Button width="170px" type="button" colorScheme="teal" onClick={handleAddFilter}>
-            Add line
-          </Button>
-        
-        <Button width="170px" type="button" colorScheme="orange" onClick={handleAddFilter}>
-          Remove
-        </Button> */}
       </HStack>
     </Box>
   );

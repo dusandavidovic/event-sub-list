@@ -6,4 +6,5 @@ export interface IColumn {
 export interface IFilter {
   columnKey: string;
   value: string;
+  add?: boolean;
 }
