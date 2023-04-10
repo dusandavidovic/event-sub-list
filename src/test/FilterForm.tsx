@@ -10,19 +10,31 @@ interface Props {
 }
 
 export default function FilterForm({ columns, onFilterChange }: Props) {
-  const [filters, setFilters] = useState<IFilter[]>([{ columnKey: "", value: "" }]);
+  const [filters, setFilters] = useState<IFilter[]>([
+    { columnKey: "", value: "" },
+  ]);
 
-  function handleColumnSelectChange(event: React.ChangeEvent<HTMLSelectElement>, index: number) {
+  function handleColumnSelectChange(
+    event: React.ChangeEvent<HTMLSelectElement>,
+    index: number
+  ) {
     const { value } = event.target;
     setFilters((prevFilters) =>
-      prevFilters.map((filter, i) => (i === index ? { ...filter, columnKey: value } : filter))
+      prevFilters.map((filter, i) =>
+        i === index ? { ...filter, columnKey: value } : filter
+      )
     );
   }
 
-  function handleValueInputChange(event: React.ChangeEvent<HTMLInputElement>, index: number) {
+  function handleValueInputChange(
+    event: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) {
     const { value } = event.target;
     setFilters((prevFilters) =>
-      prevFilters.map((filter, i) => (i === index ? { ...filter, value } : filter))
+      prevFilters.map((filter, i) =>
+        i === index ? { ...filter, value } : filter
+      )
     );
   }
 
@@ -36,7 +48,9 @@ export default function FilterForm({ columns, onFilterChange }: Props) {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    onFilterChange(filters.filter((filter) => filter.columnKey && filter.value));
+    onFilterChange(
+      filters.filter((filter) => filter.columnKey && filter.value)
+    );
   }
 
   return (
@@ -66,7 +80,11 @@ export default function FilterForm({ columns, onFilterChange }: Props) {
             value={filter.value}
             onChange={(event) => handleValueInputChange(event, index)}
           /> */}
-            {index > 0 && <Button onClick={() => handleRemoveFilterClick(index)}>Remove</Button>}
+            {index > 0 && (
+              <Button onClick={() => handleRemoveFilterClick(index)}>
+                Remove
+              </Button>
+            )}
           </div>
         ))}
 

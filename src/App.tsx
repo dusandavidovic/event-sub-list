@@ -1,4 +1,4 @@
-import { Grid, GridItem } from "@chakra-ui/react";
+import { Grid, GridItem, HStack } from "@chakra-ui/react";
 import Header from "./components/Header";
 import { IFilter } from "./interface/filter";
 import useSheets from "./hooks/useSheet";
@@ -6,6 +6,7 @@ import DataList from "./components/DataList";
 import { useEffect, useState } from "react";
 import FilterButtons from "./components/FilterButtons";
 import { filterRows, setNewFilter } from "./service/filterData";
+import FilterRemove from "./components/FilterRemove";
 
 function App() {
   const { headers, rows, error, isLoading } = useSheets();
@@ -60,7 +61,10 @@ function App() {
         <Header />
       </GridItem>
       <GridItem pl="2" bg="blue.100" area={"filter"}>
-        <FilterButtons onFilterChange={handleFilterChange} />
+        <HStack padding={"10px"}>
+          <FilterButtons onFilterChange={handleFilterChange} />
+          <FilterRemove />
+        </HStack>
       </GridItem>
       <GridItem pl="2" bg="blue.200" area={"main"}>
         <DataList

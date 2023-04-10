@@ -26,6 +26,7 @@ const FilterButtons: React.FC<IFilterButtonsProps> = ({ onFilterChange }) => {
       <Box boxSize="40%">
         <HStack padding="10px">
           <Select
+            borderColor="blue"
             onChange={(event) => handleSelect(event, "Series")}
             variant="outline"
             placeholder="Select series"
@@ -38,6 +39,7 @@ const FilterButtons: React.FC<IFilterButtonsProps> = ({ onFilterChange }) => {
             ))}
           </Select>
           <Select
+            borderColor="blue"
             variant="outline"
             placeholder="Select event"
             icon={<MdArrowDropDown />}
@@ -45,6 +47,7 @@ const FilterButtons: React.FC<IFilterButtonsProps> = ({ onFilterChange }) => {
             <option>R1</option>
           </Select>
           <Select
+            borderColor="blue"
             onChange={(event) => handleSelect(event, "Task")}
             variant="outline"
             placeholder="Select task"
