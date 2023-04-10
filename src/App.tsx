@@ -5,7 +5,7 @@ import useSheets from "./hooks/useSheet";
 import DataList from "./components/DataList";
 import { useEffect, useState } from "react";
 import FilterButtons from "./components/FilterButtons";
-import { filterRows } from "./service/filterData";
+import { filterRows, setNewFilter } from "./service/filterData";
 
 function App() {
   const { headers, rows, error, isLoading } = useSheets();
@@ -18,42 +18,37 @@ function App() {
 
   const handleFilterChange = (filter: IFilter, column: string) => {
     console.log("handleFilterChange", filter, column);
-    // update state
-    let newF: IFilter[] = [];
-    const obj = filters.find((x) => x.columnKey === column);
-    console.log("obj: ", obj);
-    if (obj) {
-      newF = filters?.map((item) =>
-        item.columnKey === filter.columnKey
-          ? { ...item, value: filter.value }
-          : filter
-      );
-    } else {
-      newF = [...filters, filter];
-    }
-    // newF = obj
-    //   ? (filters?.map((item) =>
-    //       item.columnKey === filter.columnKey
-    //         ? { ...item, value: filter.value }
-    //         : filter
-    //     ))
-    //   : [...filters, filter];
-    setFilters(newF);
 
-    //setFilteredData(newF, column);
+    // update state
+    const { value } = filter;
+    let updatedFilter: IFilter[] = [];
+    const objIdx = filters.findIndex((element) => element.columnKey === column);
+    updatedFilter = setNewFilter(filter, filters, objIdx);
+    setFilters(updatedFilter);
+    // filter data
+    setFilteredData(updatedFilter, rows, column);
   };
 
-  const setFilteredData = (filters: IFilter[], column: string) => {
+  const setFilteredData = (
+    filters: IFilter[],
+    rows: string[][],
+    column: string
+  ) => {
     let newRows: string[][] = [...rows];
 
     filters.forEach((filter) => {
-      newRows = filterRows(filter, newRows, headers.indexOf(column));
+      newRows = filterRows(
+        filter,
+        newRows,
+        column === "Task" ? -1 : headers.indexOf(column) // for tasks searh is LIKE
+      );
+      //console.log(filter, newRows);
     });
 
     setFilteredRows([...newRows]);
   };
 
-  console.log("filters: ", filters);
+  //console.log("filters: ", filters);
   //console.log("FilteredRows", filteredRows);
   return (
     <Grid

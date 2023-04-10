@@ -46,15 +46,27 @@ const filterRowsByColumn = ({
 export const filterRows = (
   filter: IFilter,
   rows: string[][],
-  columnIndex?: number
+  columnIndex: number
 ) => {
   let newRows: string[][] = [];
-  if (!columnIndex) newRows = filterValues(rows, filter.value);
-  if (columnIndex)
-    newRows = filterRowsByColumn({
-      filter: filter,
-      rows: rows,
-      columnIndex: columnIndex,
-    });
-  return newRows;
+  if (columnIndex < 0) return filterValues(rows, filter.value);
+  return filterRowsByColumn({
+    filter: filter,
+    rows: rows,
+    columnIndex: columnIndex,
+  });
+};
+
+export const setNewFilter = (
+  filter: IFilter,
+  filters: IFilter[],
+  index: number
+) => {
+  let newFilter: IFilter[] = filters;
+  if (index >= 0) {
+    newFilter.splice(index, 1, filter); // replaces element on position index
+  } else {
+    newFilter.splice(1, 0, filter); // // Inserts at index 1
+  }
+  return newFilter;
 };
