@@ -21,7 +21,6 @@ const DataList: React.FC<IDataListProps> = ({
   if (isLoading) {
     return <div>Loading...</div>;
   }
-
   return (
     <>
       <Text>{error ? error : ""}</Text>
