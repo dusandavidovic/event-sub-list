@@ -21,10 +21,11 @@ function App() {
     console.log("handleFilterChange", filter, column);
 
     // update state
-    const { value } = filter;
     let updatedFilter: IFilter[] = [];
     const objIdx = filters.findIndex((element) => element.columnKey === column);
+
     updatedFilter = setNewFilter(filter, filters, objIdx);
+
     setFilters(updatedFilter);
     // filter data
     setFilteredData(updatedFilter, rows, column);
@@ -63,10 +64,10 @@ function App() {
       <GridItem pl="2" bg="blue.100" area={"filter"}>
         <HStack padding={"10px"}>
           <FilterButtons onFilterChange={handleFilterChange} />
-          <FilterRemove />
+          <FilterRemove onPress={handleFilterChange} />
         </HStack>
       </GridItem>
-      <GridItem pl="2" bg="blue.200" area={"main"}>
+      <GridItem pl="2" bg="blue.50" area={"main"}>
         <DataList
           columns={headers}
           rows={filteredRows}

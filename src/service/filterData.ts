@@ -63,6 +63,11 @@ export const setNewFilter = (
   index: number
 ) => {
   let newFilter: IFilter[] = filters;
+  if (!filter.columnKey) {
+    // remove filter
+    newFilter.length = 0;
+    return newFilter;
+  }
   if (index >= 0) {
     newFilter.splice(index, 1, filter); // replaces element on position index
   } else {

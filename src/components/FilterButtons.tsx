@@ -1,7 +1,7 @@
-import { Box, HStack, Select } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 import { MdArrowDropDown } from "react-icons/md";
-import { IKeyValuePair } from "../config/filters";
+import { Box, HStack, Select } from "@chakra-ui/react";
+
 import { IFilter } from "../interface/filter";
 import { getSeries, getSkills } from "../service/filterData";
 
@@ -10,13 +10,26 @@ interface IFilterButtonsProps {
   onFilterChange?: (filter: IFilter, column: string) => void;
 }
 
+type filterColumns = {
+  Series: string;
+  Event: string;
+  Task: string;
+};
 // const FilterButtons: React.FC<IFilterButtonsProps> = ({ series, skills, onFilterChange }) => {
 const FilterButtons: React.FC<IFilterButtonsProps> = ({ onFilterChange }) => {
+  const [select, setSelect] = useState<filterColumns>({
+    Series: "",
+    Event: "",
+    Task: "",
+  });
+
   const handleSelect = (
     event: React.ChangeEvent<HTMLSelectElement>,
     column: string
   ) => {
     const { value } = event.target;
+    setSelect({ ...select, [column]: value });
+
     if (onFilterChange)
       onFilterChange({ columnKey: column, value: value }, column);
   };
@@ -50,6 +63,7 @@ const FilterButtons: React.FC<IFilterButtonsProps> = ({ onFilterChange }) => {
             borderColor="blue"
             onChange={(event) => handleSelect(event, "Task")}
             variant="outline"
+            value={select.Task || ""}
             placeholder="Select task"
             icon={<MdArrowDropDown />}
           >

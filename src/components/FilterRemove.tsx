@@ -1,13 +1,19 @@
 import { Button } from "@chakra-ui/react";
+import { IFilter } from "../interface/filter";
 
-const FilterRemove = () => {
+interface IFilterRemoveProps {
+  onPress: (filter: IFilter, column: string) => void;
+}
+
+const FilterRemove: React.FC<IFilterRemoveProps> = ({ onPress }) => {
   const handleButtonClick = () => {
     console.log("Remove Filter pressed");
+    onPress({ columnKey: "", value: "" }, "");
   };
 
   return (
     <Button colorScheme="orange" variant="outline" onClick={handleButtonClick}>
-      Remove filter
+      Clear filters
     </Button>
   );
 };
