@@ -21,7 +21,10 @@ export function filterValues(values: string[][], filter: string): string[][] {
   return aaa;
 }
 
-export function sortByColumn(values: string[][], columnIndex: number): string[][] {
+export function sortByColumn(
+  values: string[][],
+  columnIndex: number
+): string[][] {
   return values.sort((a, b) => a[columnIndex].localeCompare(b[columnIndex]));
 }
 
@@ -30,7 +33,9 @@ export function removeColumns(
   hiddenColumns: { [key: number]: string }
 ): string[][] {
   const columnsToRemove = Object.keys(hiddenColumns).map(Number);
-  const newMatrix = matrix.map((row) => row.filter((_, index) => !columnsToRemove.includes(index)));
+  const newMatrix = matrix.map((row) =>
+    row.filter((_, index) => !columnsToRemove.includes(index))
+  );
   return newMatrix;
 }
 

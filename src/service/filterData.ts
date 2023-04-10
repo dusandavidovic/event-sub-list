@@ -1,5 +1,6 @@
 import { series, skills } from "../config/filters";
 import { IFilter } from "../interface/filter";
+import { filterValues } from "./common";
 //import { filterValues } from "./common";
 
 interface ITable {
@@ -27,15 +28,33 @@ export const getSkills = () => {
 
 interface IfilterRowsProps {
   filter: IFilter;
-  columns: string[];
+  //columns: string[];
   rows: string[][];
+  columnIndex: number;
 }
 
-export const filterRows = ({ filter, columns, rows }: IfilterRowsProps) => {
-  const colIdx = columns.indexOf(filter.columnKey);
-
-  const fRow = rows.filter((row, index) => {
-    return filter.value === row[colIdx];
+const filterRowsByColumn = ({
+  filter,
+  rows,
+  columnIndex,
+}: IfilterRowsProps) => {
+  return rows.filter((row, index) => {
+    return filter.value === row[columnIndex];
   });
-  return fRow;
+};
+
+export const filterRows = (
+  filter: IFilter,
+  rows: string[][],
+  columnIndex?: number
+) => {
+  let newRows: string[][] = [];
+  if (!columnIndex) newRows = filterValues(rows, filter.value);
+  if (columnIndex)
+    newRows = filterRowsByColumn({
+      filter: filter,
+      rows: rows,
+      columnIndex: columnIndex,
+    });
+  return newRows;
 };

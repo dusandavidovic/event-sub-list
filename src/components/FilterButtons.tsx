@@ -5,25 +5,20 @@ import { IKeyValuePair } from "../config/filters";
 import { IFilter } from "../interface/filter";
 import { getSeries, getSkills } from "../service/filterData";
 
-// interface IFilterColumns {
-//   series: string;
-//   event: string;
-//   skills: string;
-//   //onFilterChange: (filters: IFilter[], action: string) => void;
-// }
-
 interface IFilterButtonsProps {
-  //   series: IKeyValuePair[];
   event?: string[];
-  //   skills: IKeyValuePair[];
-  onFilterChange?: (filters: IFilter, action?: string) => void;
+  onFilterChange?: (filter: IFilter, column: string) => void;
 }
 
 // const FilterButtons: React.FC<IFilterButtonsProps> = ({ series, skills, onFilterChange }) => {
 const FilterButtons: React.FC<IFilterButtonsProps> = ({ onFilterChange }) => {
-  const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>, column: string) => {
+  const handleSelect = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+    column: string
+  ) => {
     const { value } = event.target;
-    if (onFilterChange) onFilterChange({ columnKey: column, value: value });
+    if (onFilterChange)
+      onFilterChange({ columnKey: column, value: value }, column);
   };
 
   return (
@@ -42,11 +37,15 @@ const FilterButtons: React.FC<IFilterButtonsProps> = ({ onFilterChange }) => {
               </option>
             ))}
           </Select>
-          <Select variant="outline" placeholder="Select event" icon={<MdArrowDropDown />}>
+          <Select
+            variant="outline"
+            placeholder="Select event"
+            icon={<MdArrowDropDown />}
+          >
             <option>R1</option>
           </Select>
           <Select
-            onChange={(event) => handleSelect(event, "Skills")}
+            onChange={(event) => handleSelect(event, "Task")}
             variant="outline"
             placeholder="Select task"
             icon={<MdArrowDropDown />}

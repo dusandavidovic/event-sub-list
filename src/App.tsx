@@ -5,41 +5,56 @@ import useSheets from "./hooks/useSheet";
 import DataList from "./components/DataList";
 import { useEffect, useState } from "react";
 import FilterButtons from "./components/FilterButtons";
-import { filterRows, getSeries, getSkills } from "./service/filterData";
-import { IKeyValuePair } from "./config/filters";
+import { filterRows } from "./service/filterData";
 
 function App() {
   const { headers, rows, error, isLoading } = useSheets();
   const [filteredRows, setFilteredRows] = useState<string[][]>([]);
+  const [filters, setFilters] = useState<IFilter[]>([]);
 
   useEffect(() => {
     setFilteredRows([...rows]);
   }, [rows]);
 
-  //const [filters, setFilters] = useState<IFilter[]>([{ columnKey: "", value: "", add: true }]);
+  const handleFilterChange = (filter: IFilter, column: string) => {
+    console.log("handleFilterChange", filter, column);
+    // update state
+    let newF: IFilter[] = [];
+    const obj = filters.find((x) => x.columnKey === column);
+    console.log("obj: ", obj);
+    if (obj) {
+      newF = filters?.map((item) =>
+        item.columnKey === filter.columnKey
+          ? { ...item, value: filter.value }
+          : filter
+      );
+    } else {
+      newF = [...filters, filter];
+    }
+    // newF = obj
+    //   ? (filters?.map((item) =>
+    //       item.columnKey === filter.columnKey
+    //         ? { ...item, value: filter.value }
+    //         : filter
+    //     ))
+    //   : [...filters, filter];
+    setFilters(newF);
 
-  // const handleFilterChange = (filters: IFilter[], action: string) => {
-  //   const filter = filters[0];
-  //   console.log("Filter change", action, filters);
-  //   if (action === "add")
-  //     if (filter.columnKey && filter.value)
-  //       setFilters((prevFilters) => [
-  //         ...prevFilters,
-  //         { columnKey: filter.columnKey, value: filter.value, add: filter.add },
-  //       ]);
-  // };
+    //setFilteredData(newF, column);
+  };
 
-  const handleTest = (filter: IFilter, action?: string) => {
-    console.log(filter, action);
-    const newRows = filterRows({
-      filter: filter,
-      columns: headers,
-      rows: filteredRows,
+  const setFilteredData = (filters: IFilter[], column: string) => {
+    let newRows: string[][] = [...rows];
+
+    filters.forEach((filter) => {
+      newRows = filterRows(filter, newRows, headers.indexOf(column));
     });
+
     setFilteredRows([...newRows]);
   };
 
-  console.log("FilteredRows", filteredRows);
+  console.log("filters: ", filters);
+  //console.log("FilteredRows", filteredRows);
   return (
     <Grid
       templateAreas={`"header" "filter" "main"`}
@@ -50,7 +65,7 @@ function App() {
         <Header />
       </GridItem>
       <GridItem pl="2" bg="blue.100" area={"filter"}>
-        <FilterButtons onFilterChange={handleTest} />
+        <FilterButtons onFilterChange={handleFilterChange} />
       </GridItem>
       <GridItem pl="2" bg="blue.200" area={"main"}>
         <DataList
@@ -58,7 +73,6 @@ function App() {
           rows={filteredRows}
           error={error}
           isLoading={isLoading}
-          //onFilterChange={handleFilterChange}
         />
       </GridItem>
     </Grid>
