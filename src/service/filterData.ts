@@ -68,6 +68,7 @@ export const setNewFilter = (
     newFilter.length = 0;
     return newFilter;
   }
+  if (!filter.value) return newFilter.splice(index, 1);
   if (index >= 0) {
     newFilter.splice(index, 1, filter); // replaces element on position index
   } else {
