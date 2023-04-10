@@ -6,7 +6,7 @@ const Header = () => {
   return (
     <HStack justifyContent={"space-between"} padding={"10px"}>
       <Image src={logo} boxSize={"60px"}></Image>
-      <Text fontSize={"4xl"}>Google Sheet Test Api</Text>
+      <Text fontSize={"4xl"}>Race Committee Volunteers</Text>
       <ModeSwitch />
     </HStack>
   );
