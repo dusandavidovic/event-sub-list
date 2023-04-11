@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import { IFilter } from "../interface/filter";
 import { Text } from "@chakra-ui/react";
 import SheetTable from "./SheetTable";
 

@@ -1,13 +1,8 @@
 import { useEffect, useState } from "react";
+
 import apiClient, { CanceledError } from "../service/api-client";
 import { getUri } from "../config/api";
 import SHEETS from "../config/sheets";
-
-// export interface Entries {
-//   : string;
-//   Type: string;
-//   isRequired: string;
-// }
 
 const useSheets = () => {
   const [values, setValues] = useState<string[][]>([]);
