@@ -44,3 +44,9 @@ export const skills = [
     value: "Scorer",
   },
 ];
+
+export const CurrentDateFilter = {
+  today: "Select from today",
+  //  all: "Select all",
+  dateColumn: "Event Date",
+};

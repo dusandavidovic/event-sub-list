@@ -4,7 +4,7 @@ import { Box, Button, HStack, Select } from "@chakra-ui/react";
 
 import { IFilter } from "../interface/filter";
 import { getSeries, getSkills } from "../service/filterData";
-import { IKeyValuePair } from "../config/filters";
+import { CurrentDateFilter, IKeyValuePair } from "../config/filters";
 
 interface IFilterButtonsProps {
   events?: IKeyValuePair[];
@@ -15,6 +15,7 @@ type filterColumns = {
   Series: string;
   Event: string;
   Task: string;
+  Date: string;
 };
 
 const FilterButtons: React.FC<IFilterButtonsProps> = ({
@@ -25,6 +26,7 @@ const FilterButtons: React.FC<IFilterButtonsProps> = ({
     Series: "",
     Event: "",
     Task: "",
+    Date: "",
   });
 
   const handleSelect = (
@@ -32,20 +34,26 @@ const FilterButtons: React.FC<IFilterButtonsProps> = ({
     column: string
   ) => {
     const { value } = event.target;
-    setSelect({ ...select, [column]: value });
+    const sColumn = column === CurrentDateFilter.dateColumn ? "Date" : column;
+    setSelect({ ...select, [sColumn]: value });
 
     if (onFilterChange)
       onFilterChange({ columnKey: column, value: value }, column);
   };
 
   const handleReset = () => {
-    setSelect({ Series: "", Event: "", Task: "" });
+    setSelect({
+      Series: "",
+      Event: "",
+      Task: "",
+      Date: "",
+    });
     if (onFilterChange) onFilterChange({ columnKey: "", value: "" }, "");
   };
 
   return (
     <>
-      <Box boxSize="60%">
+      <Box boxSize="80%">
         <HStack padding="10px">
           <Select
             borderColor="blue"
@@ -90,9 +98,22 @@ const FilterButtons: React.FC<IFilterButtonsProps> = ({
               </option>
             ))}
           </Select>
+          <Select
+            borderColor="blue"
+            onChange={(event) =>
+              handleSelect(event, CurrentDateFilter.dateColumn)
+            }
+            variant="outline"
+            placeholder="Select date"
+            value={select.Date}
+            icon={<MdArrowDropDown />}
+          >
+            <option>{CurrentDateFilter.today}</option>
+          </Select>
           <Button
             leftIcon={<MdClear />}
             marginLeft="20px"
+            fontSize={"md"}
             size="lg"
             width="400px"
             height="40px"

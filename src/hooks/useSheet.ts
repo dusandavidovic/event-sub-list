@@ -20,7 +20,7 @@ const useSheets = () => {
         signal: controler.signal,
       })
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         setValues(res.data.values);
         if (res.data.values) {
           setHeaders(res.data.values[0]);

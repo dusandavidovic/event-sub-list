@@ -1,4 +1,9 @@
-import { IKeyValuePair, series, skills } from "../config/filters";
+import {
+  CurrentDateFilter,
+  IKeyValuePair,
+  series,
+  skills,
+} from "../config/filters";
 import { IFilter } from "../interface/filter";
 import { filterValues } from "./common";
 
@@ -53,6 +58,7 @@ export const filterRows = (
   columnIndex: number
 ) => {
   let newRows: string[][] = [];
+
   if (columnIndex < 0) return filterValues(rows, filter.value);
   return filterRowsByColumn({
     filter: filter,
@@ -82,4 +88,18 @@ export const setNewFilter = (
     }
   }
   return newFilter;
+};
+
+export const filterByDate = ({
+  filter,
+  rows,
+  columnIndex,
+}: IfilterRowsProps) => {
+  if (!filter.value) return rows;
+  let today = new Date("2023-05-30"); // TEST;
+  //let today = new Date();
+  return rows.filter((row) => {
+    let cellDate = new Date(row[columnIndex]);
+    return today <= cellDate;
+  });
 };

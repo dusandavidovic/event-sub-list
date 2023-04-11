@@ -6,7 +6,13 @@ import useSheets from "./hooks/useSheet";
 import DataList from "./components/DataList";
 import { useEffect, useState } from "react";
 import FilterButtons from "./components/FilterButtons";
-import { filterRows, getEvents, setNewFilter } from "./service/filterData";
+import {
+  filterByDate,
+  filterRows,
+  getEvents,
+  setNewFilter,
+} from "./service/filterData";
+import { CurrentDateFilter } from "./config/filters";
 
 function App() {
   const { headers, rows, error, isLoading } = useSheets();
@@ -31,11 +37,19 @@ function App() {
 
   const setFilteredData = (filters: IFilter[], rows: string[][]) => {
     let newRows: string[][] = [...rows];
-
+    let colIdx = 0;
     filters.forEach((filter) => {
-      let colIdx =
-        filter.columnKey === "Task" ? -1 : headers.indexOf(filter.columnKey);
-      newRows = filterRows(filter, newRows, colIdx);
+      if (filter.columnKey === CurrentDateFilter.dateColumn) {
+        newRows = filterByDate({
+          filter: filter,
+          rows: newRows,
+          columnIndex: headers.indexOf(filter.columnKey),
+        });
+      } else {
+        let colIdx =
+          filter.columnKey === "Task" ? -1 : headers.indexOf(filter.columnKey);
+        newRows = filterRows(filter, newRows, colIdx);
+      }
     });
 
     setFilteredRows([...newRows]);
