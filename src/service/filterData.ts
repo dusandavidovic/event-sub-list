@@ -1,7 +1,6 @@
-import { series, skills } from "../config/filters";
+import { IKeyValuePair, series, skills } from "../config/filters";
 import { IFilter } from "../interface/filter";
 import { filterValues } from "./common";
-//import { filterValues } from "./common";
 
 interface ITable {
   columns: string[];
@@ -13,6 +12,23 @@ export const getSeries = () => {
 };
 export const getSkills = () => {
   return skills;
+};
+
+export const getEvents = ({ columns, rows }: ITable) => {
+  const events: IKeyValuePair[] = [];
+  const mySet = new Set();
+  const colIdx = columns.indexOf("Event");
+  for (let index = 0; index < rows.length; index++) {
+    const eventValue = rows[index][colIdx];
+    mySet.add(eventValue);
+  }
+  let ii = 0;
+  mySet.forEach((value) => {
+    let event: IKeyValuePair = { key: ++ii, value: value as string };
+    events.push(event);
+  });
+
+  return events;
 };
 
 interface IfilterRowsProps {

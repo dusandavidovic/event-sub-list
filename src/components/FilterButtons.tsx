@@ -4,11 +4,11 @@ import { Box, Button, HStack, Select } from "@chakra-ui/react";
 
 import { IFilter } from "../interface/filter";
 import { getSeries, getSkills } from "../service/filterData";
+import { IKeyValuePair } from "../config/filters";
 
 interface IFilterButtonsProps {
-  event?: string[];
+  events?: IKeyValuePair[];
   onFilterChange?: (filter: IFilter, column: string) => void;
-  clearFilters?: boolean;
 }
 
 type filterColumns = {
@@ -16,9 +16,10 @@ type filterColumns = {
   Event: string;
   Task: string;
 };
+
 const FilterButtons: React.FC<IFilterButtonsProps> = ({
+  events,
   onFilterChange,
-  clearFilters,
 }) => {
   const [select, setSelect] = useState<filterColumns>({
     Series: "",
@@ -64,9 +65,16 @@ const FilterButtons: React.FC<IFilterButtonsProps> = ({
             borderColor="blue"
             variant="outline"
             placeholder="Select event"
+            value={select.Event || ""}
+            onChange={(event) => handleSelect(event, "Event")}
             icon={<MdArrowDropDown />}
           >
-            <option>R1</option>
+            {events &&
+              events.map((event) => (
+                <option key={event.key} value={event.value}>
+                  {event.value}
+                </option>
+              ))}
           </Select>
           <Select
             borderColor="blue"

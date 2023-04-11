@@ -6,7 +6,7 @@ import useSheets from "./hooks/useSheet";
 import DataList from "./components/DataList";
 import { useEffect, useState } from "react";
 import FilterButtons from "./components/FilterButtons";
-import { filterRows, setNewFilter } from "./service/filterData";
+import { filterRows, getEvents, setNewFilter } from "./service/filterData";
 
 function App() {
   const { headers, rows, error, isLoading } = useSheets();
@@ -51,7 +51,10 @@ function App() {
         <Header />
       </GridItem>
       <GridItem pl="2" bg="blue.100" area={"filter"}>
-        <FilterButtons onFilterChange={handleFilterChange} />
+        <FilterButtons
+          onFilterChange={handleFilterChange}
+          events={getEvents({ columns: headers, rows: filteredRows })}
+        />
       </GridItem>
       <GridItem pl="2" bg="blue.50" area={"main"}>
         <DataList
