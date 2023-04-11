@@ -9,14 +9,12 @@ interface IDataListProps {
   rows: string[][];
   error: string;
   isLoading: boolean;
-  //onFilterChange: (filters: IFilter[]) => void;
 }
 const DataList: React.FC<IDataListProps> = ({
   columns,
   rows,
   error,
   isLoading,
-  //onFilterChange,
 }) => {
   if (isLoading) {
     return <div>Loading...</div>;

@@ -1,5 +1,6 @@
 import React from "react";
 import { Table, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react";
+
 import { hiddenColumns } from "../interface/eventSubscription";
 import { removeColumns, removeColumnsFromArray } from "../service/common";
 
@@ -24,7 +25,10 @@ const SheetTable: React.FC<ISheetTableProps> = ({ columns, rows }) => {
         {displayRows.map((row, index) => (
           <Tr key={index}>
             {row.map((cell, index) => (
-              <Td key={index} style={{ whiteSpace: "nowrap", textAlign: "left" }}>
+              <Td
+                key={index}
+                style={{ whiteSpace: "nowrap", textAlign: "left" }}
+              >
                 {cell}
               </Td>
             ))}

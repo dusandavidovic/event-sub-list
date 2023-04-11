@@ -8,7 +8,11 @@ interface IFilterProps {
   onFilterChange: (filters: IFilter[], action: string) => void;
 }
 
-const Filter: React.FC<IFilterProps> = ({ filters, columns, onFilterChange }) => {
+const Filter: React.FC<IFilterProps> = ({
+  filters,
+  columns,
+  onFilterChange,
+}) => {
   let lineIdx = 0;
   return (
     <>
@@ -35,7 +39,11 @@ const Filter: React.FC<IFilterProps> = ({ filters, columns, onFilterChange }) =>
       <List>
         {filters.map((filter) => (
           <ListItem key={lineIdx++}>
-            <FilterLine filter={filter} columns={columns} onFilterChange={onFilterChange} />
+            <FilterLine
+              filter={filter}
+              columns={columns}
+              onFilterChange={onFilterChange}
+            />
           </ListItem>
         ))}
       </List>

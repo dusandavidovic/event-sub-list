@@ -1,4 +1,4 @@
-import { Grid, GridItem, HStack } from "@chakra-ui/react";
+import { Grid, GridItem } from "@chakra-ui/react";
 
 import Header from "./components/Header";
 import { IFilter } from "./interface/filter";
@@ -18,8 +18,6 @@ function App() {
   }, [rows]);
 
   const handleFilterChange = (filter: IFilter, column: string) => {
-    console.log("handleFilterChange", filter, column);
-
     // update state
     let updatedFilter: IFilter[] = [];
     const objIdx = filters.findIndex((element) => element.columnKey === column);
@@ -28,22 +26,16 @@ function App() {
 
     setFilters(updatedFilter);
     // filter data
-    setFilteredData(updatedFilter, rows, column);
+    setFilteredData(updatedFilter, rows);
   };
 
-  const setFilteredData = (
-    filters: IFilter[],
-    rows: string[][],
-    column: string
-  ) => {
+  const setFilteredData = (filters: IFilter[], rows: string[][]) => {
     let newRows: string[][] = [...rows];
 
     filters.forEach((filter) => {
-      newRows = filterRows(
-        filter,
-        newRows,
-        column === "Task" ? -1 : headers.indexOf(column) // for tasks searh is LIKE
-      );
+      let colIdx =
+        filter.columnKey === "Task" ? -1 : headers.indexOf(filter.columnKey);
+      newRows = filterRows(filter, newRows, colIdx);
     });
 
     setFilteredRows([...newRows]);

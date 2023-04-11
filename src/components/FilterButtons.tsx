@@ -16,7 +16,6 @@ type filterColumns = {
   Event: string;
   Task: string;
 };
-// const FilterButtons: React.FC<IFilterButtonsProps> = ({ series, skills, onFilterChange }) => {
 const FilterButtons: React.FC<IFilterButtonsProps> = ({
   onFilterChange,
   clearFilters,
@@ -39,7 +38,6 @@ const FilterButtons: React.FC<IFilterButtonsProps> = ({
   };
 
   const handleReset = () => {
-    console.log("Reset");
     setSelect({ Series: "", Event: "", Task: "" });
     if (onFilterChange) onFilterChange({ columnKey: "", value: "" }, "");
   };

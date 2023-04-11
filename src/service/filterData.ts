@@ -8,17 +8,6 @@ interface ITable {
   rows: string[][];
 }
 
-// export const getSeries = ({ columns, rows }: ITable) => {
-//   const idx = columns.indexOf("Series");
-
-//   //const aaa = filterValues(rows, "series");
-
-//   const aaa = rows.map((row) => row[idx]);
-//   console.log("getSeries", aaa);
-//   const mySet = new Set(aaa);
-//   console.log("mySet", mySet);
-// };
-
 export const getSeries = () => {
   return series;
 };
@@ -28,7 +17,6 @@ export const getSkills = () => {
 
 interface IfilterRowsProps {
   filter: IFilter;
-  //columns: string[];
   rows: string[][];
   columnIndex: number;
 }
@@ -68,11 +56,14 @@ export const setNewFilter = (
     newFilter.length = 0;
     return newFilter;
   }
-  if (!filter.value) return newFilter.splice(index, 1);
-  if (index >= 0) {
-    newFilter.splice(index, 1, filter); // replaces element on position index
+  if (!filter.value) {
+    newFilter.splice(index, 1); //removes element index
   } else {
-    newFilter.splice(1, 0, filter); // // Inserts at index 1
+    if (index >= 0) {
+      newFilter.splice(index, 1, filter); // replaces element on position index
+    } else {
+      newFilter.splice(1, 0, filter); // // Inserts at index 1
+    }
   }
   return newFilter;
 };
