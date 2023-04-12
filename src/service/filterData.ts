@@ -96,8 +96,8 @@ export const filterByDate = ({
   columnIndex,
 }: IfilterRowsProps) => {
   if (!filter.value) return rows;
-  let today = new Date("2023-05-30"); // TEST;
-  //let today = new Date();
+  // let today = new Date("2023-05-30"); // TEST;
+  let today = new Date();
   return rows.filter((row) => {
     let cellDate = new Date(row[columnIndex]);
     return today <= cellDate;
